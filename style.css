@@ -3,6 +3,7 @@
     --bg-secondary: #1a1a2e;     /* 卡片背景 */
     --accent-primary: #00d4aa;   /* 霓虹青 */
     --accent-secondary: #ff6b90;  /* 霓虹粉 */
+    --accent-secondary--literal: #5be9fc;  /* 霓虹粉 */
     --accent-glow: rgba(0, 212, 170, 0.3);
     --text-primary: #ffffff;
     --text-secondary: #a0a0b0;
@@ -125,10 +126,41 @@ body {
 }
 
 .result {
-    margin-top: 20px;
-    font-size: 24px;
-    color: #333;
+    margin-top: 30px;
+    font-size: 32px;
+    font-weight: bold;
+    min-height: 50px;
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    
+    /* 渐变文字 */
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary--literal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+    /* 霓虹光晕 */
+    filter: drop-shadow(0 0 10px rgba(0, 212, 170, 0.5));
+    text-align: center;
 }
+
+.result.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    animation: resultGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes resultGlow {
+    from {
+        filter: drop-shadow(0 0 10px rgba(6, 233, 233, 0.5));
+    }
+    to {
+        filter: drop-shadow(0 0 20px rgba(0, 212, 170, 0.8)) 
+                drop-shadow(0 0 40px rgba(255, 107, 157, 0.4));
+    }
+}
+
 .btn {
     display: inline-flex;
     align-items: center;
@@ -267,26 +299,30 @@ body {
 }
 
 .config-row {
-  margin-top: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    /* 去掉 justify-content: space-between，让元素自然排列 */
+    gap: 12px;                    /* 添加间距 */
 }
 
 .config-label {
-  min-width: 180px;
-  font-size: 28px;
-  color: #333;
+    min-width: 140px;            /* 从 180px 减小 */
+    max-width: 140px;            /* 限制最大宽度 */
+    font-size: 16px;             /* 从 28px 减小 */
+    color: var(--text-secondary);
+    flex-shrink: 0;              /* 不收缩 */
 }
 
 .config-input {
-    flex: 1;
-    margin-left: 16px;
-    padding: 8px 12px;
+    flex: 1;                     /* 占据剩余空间 */
+    min-width: 0;                /* 允许收缩 */
+    padding: 10px 12px;
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: var(--text-primary);
+    font-size: 16px;
     transition: all 0.3s;
 }
 
@@ -297,9 +333,15 @@ body {
 }
 
 .config-row-note {
-  justify-content: flex-start;
-  font-size: 24px;
-  color: #666;
+    justify-content: flex-start;
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-top: 8px;
+}
+
+.config-row-note .config-label {
+    min-width: auto;             /* 自动宽度 */
+    color: var(--accent-primary);
 }
 
 .config-actions {

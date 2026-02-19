@@ -78,14 +78,15 @@ class Wheel{
     this.updateSectorStyle();
 
     setTimeout(() => {
-      this.state.isSpinning = false;
-      this.spinBtn.disabled = false;
-      this.spinBtn.textContent = '决策';
-      // 这里直接固定结果为 sector1Text
-      this.resultEl.textContent = this.state.sector1Text;
-      // 决策完成后触发一次彩纸动画
-      this.launchConfetti();
-    }, this.state.duration);
+    this.state.isSpinning = false;
+    this.spinBtn.disabled = false;
+    this.spinBtn.textContent = '决策';
+    
+    this.resultEl.textContent = this.state.sector1Text;
+    this.resultEl.classList.add('show');  // ✅ 添加显示动画
+    
+    this.launchConfetti();
+}, this.state.duration);
   }
 
   //扇形采样
