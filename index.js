@@ -14,7 +14,6 @@ class Wheel{
       sector1Label: '',
       sector2Label: '',
       // 配置窗口相关
-      showConfig: false,
       editUserPercent: 50,
       editSector1Text: '选项一',
       editSector2Text: '选项二',
@@ -120,23 +119,28 @@ class Wheel{
 
   // 打开配置窗口
   openConfig() {
-    this.state.showConfig = true;
     this.state.editUserPercent = this.state.sectorPercent;
     this.state.editSector1Text = this.state.sector1Text;
     this.state.editSector2Text = this.state.sector2Text;
+
+    this.syncConfigPanelToDOM();
+
     this.configMask.classList.add('show');
   }
   
-
   // 关闭配置窗口（不保存）
   closeConfig() {
-    this.state.showConfig = false;
     this.configMask.classList.remove('show');  
   }
 
   // 编辑分区1比例（n%，分区2自动为 100-n）
   onEditPercent(e) {
     this.state.editUserPercent = e.target.value;
+    const value = e.target.value;
+    const p = parseInt(value, 10);
+    if (p >= 0 && p <= 100) {
+        this.percent2El.textContent = 100 - p;
+    }
   }
 
   // 编辑分区1文字
@@ -147,6 +151,13 @@ class Wheel{
   // 编辑分区2文字
   onEditSector2Text(e) {
     this.state.editSector2Text = e.target.value;
+  }
+
+  syncConfigPanelToDOM() {
+    this.inputPercent.value = this.state.sectorPercent;
+    this.inputSector1.value = this.state.sector1Text;
+    this.inputSector2.value = this.state.sector2Text;
+    this.percent2El.textContent = 100 - this.state.sectorPercent;
   }
 
   makeLabel(text) {
@@ -169,10 +180,10 @@ class Wheel{
     const text2 = this.inputSector2.value.trim();
 
     // 只允许整数：如果包含小数点/非数字，则不更改，直接提示
-    if (!/^\d+$/.test(raw)) {
-      alert('请输入整数百分比');
+    if (!/^\d+$/.test(raw) || parseInt(raw) < 1 || parseInt(raw) > 99) {
+      alert('请输入整数百分比（1-99之间）');
       // 还原输入框显示为当前生效的比例
-      this.state.editUserPercent = this.state.sectorPercent;
+      this.syncConfigPanelToDOM();
       return;
     }
 
