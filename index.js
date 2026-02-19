@@ -62,6 +62,7 @@ class Wheel{
 
   startSpin(){
     if (this.state.isSpinning) return;
+    this.resultEl.classList.remove('show');
 
     const minSpins = 5;
     const randomAngle = Math.floor(Math.random() * 270);
@@ -83,7 +84,7 @@ class Wheel{
     this.spinBtn.textContent = '决策';
     
     this.resultEl.textContent = this.state.sector1Text;
-    this.resultEl.classList.add('show');  // ✅ 添加显示动画
+    this.resultEl.classList.add('show');
     
     this.launchConfetti();
 }, this.state.duration);

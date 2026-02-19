@@ -10,7 +10,14 @@
     --border-glow: rgba(0, 212, 170, 0.2);
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
 body {
+    display: flex;
     background: var(--bg-primary);
     background-image: 
         radial-gradient(ellipse at 20% 80%, rgba(0, 212, 170, 0.15) 0%, transparent 50%),
@@ -24,6 +31,7 @@ body {
     flex-direction: column;
     align-items: center;
     padding-top: 80px;
+    width: 100%; 
     padding-bottom: 20px;
 }
 
@@ -32,6 +40,10 @@ body {
     width: 400px;
     height: 400px;
     margin-bottom: 40px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .wheel {
@@ -113,11 +125,11 @@ body {
 
 .center-dot {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 49%;
+    left: 49%;
     transform: translate(-35%, -40%);
-    width: 20px;
-    height: 20px;
+    width: 4%;
+    height: 4%;
     border-radius: 50%;
     border: 3px solid #fff;
     z-index: 10;
@@ -130,6 +142,8 @@ body {
     font-size: 32px;
     font-weight: bold;
     min-height: 50px;
+      
+    /* 初始状态 */
     opacity: 0;
     transform: translateY(20px) scale(0.9);
     transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -149,6 +163,10 @@ body {
     opacity: 1;
     transform: translateY(0) scale(1);
     animation: resultGlow 2s ease-in-out infinite alternate;
+}
+
+.result:not(.show) {
+    animation: none;
 }
 
 @keyframes resultGlow {
@@ -302,21 +320,20 @@ body {
     margin-top: 16px;
     display: flex;
     align-items: center;
-    /* 去掉 justify-content: space-between，让元素自然排列 */
-    gap: 12px;                    /* 添加间距 */
+    gap: 12px;
 }
 
 .config-label {
-    min-width: 140px;            /* 从 180px 减小 */
-    max-width: 140px;            /* 限制最大宽度 */
-    font-size: 16px;             /* 从 28px 减小 */
+    min-width: 140px;
+    max-width: 140px;
+    font-size: 16px;
     color: var(--text-secondary);
-    flex-shrink: 0;              /* 不收缩 */
+    flex-shrink: 0;
 }
 
 .config-input {
-    flex: 1;                     /* 占据剩余空间 */
-    min-width: 0;                /* 允许收缩 */
+    flex: 1;
+    min-width: 0;
     padding: 10px 12px;
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.05);
@@ -340,7 +357,7 @@ body {
 }
 
 .config-row-note .config-label {
-    min-width: auto;             /* 自动宽度 */
+    min-width: auto;
     color: var(--accent-primary);
 }
 
@@ -350,8 +367,67 @@ body {
   justify-content: flex-end;
 }
 
-.config-actions button + button {
-  margin-left: 24px;
+/* 配置弹窗按钮样式 - 与主按钮风格一致 */
+.config-actions .btn-mini {
+    margin-left: 10px;
+    width: 90px;
+    height: 40px;
+    border-radius: 8px;
+    border: 2px solid;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    background: transparent;
+}
+
+/* 取消按钮 - 霓虹粉风格 */
+#cancelBtn {
+    color: var(--accent-secondary);
+    border-color: var(--accent-secondary);
+}
+
+#cancelBtn:hover {
+    background: var(--accent-secondary);
+    color: var(--bg-primary);
+    box-shadow: 0 0 20px var(--accent-secondary);
+    transform: translateY(-2px);
+}
+
+/* 确定按钮 - 霓虹青风格（与主按钮一致） */
+#confirmBtn {
+    color: var(--accent-primary);
+    border-color: var(--accent-primary);
+}
+
+#confirmBtn:hover {
+    background: var(--accent-primary);
+    color: var(--bg-primary);
+    box-shadow: 0 0 20px var(--accent-primary);
+    transform: translateY(-2px);
+}
+
+/* 按钮点击效果 */
+.config-actions .btn-mini:active {
+    transform: scale(0.96);
+}
+
+/* 光效动画 - 与主按钮一致 */
+.config-actions .btn-mini::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s;
+}
+
+.config-actions .btn-mini:hover::before {
+    left: 100%;
 }
 
 /* 彩纸动画遮罩层 */
