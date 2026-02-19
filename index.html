@@ -8,7 +8,6 @@
 </head>
 <body>
 	<div class="container">
-		<!-- 转盘区域：你可以把 WXML 的结构逐步迁到这里 -->
 		<div class="wheel-container">
 			<div class="wheel">
 				<div id="wheelSection" class="wheel-section">
@@ -20,7 +19,6 @@
 			<div id="pointer" class="pointer">
 				<div class="pointer-triangle"></div>
 			</div>
-
 			<div class="center-dot"></div>
 		</div>
 
@@ -34,64 +32,36 @@
 			<span class="footer-icon">↗</span>
 		</div>
 	</div>
+	<!-- 配置弹窗 -->
+	<div id="configMask" class="config-mask">
+		<div class="config-panel">
+			<div class="config-title">修改分区与比例</div>
 
-	<script>
-		// === 基础 JS 状态：对应小程序 data 的一个简化版本 ===
-		const state = {
-			rotateAngle: 0,
-			isSpinning: false,
-			duration: 4000,
-			sectorPercent: 30,
-			sector1Text: '打游戏',
-			sector2Text: '干活'
-		};
+			<div class="config-row">
+				<span class="config-label">分区1文字</span>
+				<input type="text" id="editSector1Text" class="config-input" value="打游戏">
+			</div>
 
-		const wheelSection = document.getElementById('wheelSection');
-		const pointer = document.getElementById('pointer');
-		const spinBtn = document.getElementById('spinBtn');
-		const resultEl = document.getElementById('result');
-		const githubLink = document.getElementById('githubLink');
+			<div class="config-row">
+				<span class="config-label">分区2文字</span>
+				<input type="text" id="editSector2Text" class="config-input" value="干活">
+			</div>
 
-		// 简化版：只做一个“旋转 + 固定结果”示例，核心迁移逻辑你可以参考小程序 index.js 自行完善
-		function updateSectorStyle() {
-			wheelSection.style.transform = `rotate(${state.rotateAngle}deg)`;
-		}
+			<div class="config-row">
+				<span class="config-label">分区1比例(1~99%)</span>
+				<input type="number" id="editUserPercent" class="config-input" value="30">
+			</div>
 
-		function startSpin() {
-			if (state.isSpinning) return;
+			<div class="config-row config-row-note">
+				<span class="config-label">分区2比例 <span id="percent2">70</span>%</span>
+			</div>
 
-			const minSpins = 5;
-			const randomAngle = Math.floor(Math.random() * 270);
-			const totalAngle = state.rotateAngle + minSpins * 360 + randomAngle;
-
-			state.isSpinning = true;
-			state.rotateAngle = totalAngle;
-			resultEl.textContent = '';
-
-			spinBtn.disabled = true;
-			spinBtn.textContent = '决策中...';
-
-			pointer.style.transform = `rotate(${state.rotateAngle}deg)`;
-			updateSectorStyle();
-
-			setTimeout(() => {
-				state.isSpinning = false;
-				spinBtn.disabled = false;
-				spinBtn.textContent = '决策';
-				// 这里直接固定结果为 sector1Text，对应小程序 calculateResult
-				resultEl.textContent = state.sector1Text;
-				// 彩纸动画、配置弹窗等你可以参考小程序 index.js 继续往下迁
-			}, state.duration);
-		}
-
-		spinBtn.addEventListener('click', startSpin);
-
-		githubLink.addEventListener('click', () => {
-			window.open('https://github.com/Kyunana097/I_decide_web', '_blank');
-		});
-
-		// 初始样式
-		updateSectorStyle();
-	</script>
+			<div class="config-actions">
+				<button id="cancelBtn" class="btn-mini">取消</button>
+				<button id="confirmBtn" class="btn-mini">确定</button>
+			</div>
+		</div>
+	</div>
+    <script src="index.js"></script>
 </body>
 </html>
