@@ -37,8 +37,10 @@ body {
 
 .wheel-container {
     position: relative;
-    width: 400px;
-    height: 400px;
+    width: 90vw;
+    height: 90vw;
+    max-width: 400px;            /* 最大不超过 400px */
+    max-height: 400px;
     margin-bottom: 40px;
     padding: 10px;
     display: flex;
@@ -79,25 +81,28 @@ body {
 
 .sector1-label {
     position: absolute;
-    top: 40px;
+    top: 15%;
     left: 50%;
     transform: translateX(-50%);
     color: #ffffff;
-    font-size: 18px;
+    font-size: clamp(14px, 4vw, 20px); 
     font-weight: bold;
     text-align: center;
+    z-index: 3;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 .sector2-label {
     position: absolute;
-    bottom: 40px;
+    bottom: 15%;
     left: 50%;
     transform: translateX(-50%);
     color: #333333;
-    font-size: 18px;
+    font-size: clamp(14px, 4vw, 20px); 
     font-weight: bold;
     text-align: center;
     z-index: 1;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 .pointer {
@@ -111,25 +116,25 @@ body {
 
 .pointer-triangle {
     position: absolute;
-    top: 8px;
+    top: 2%;
     left: 50%;
     transform: translateX(-50%);
     width: 0;
     height: 0;
-    border-left: 12px solid transparent;
-    border-right: 12px solid transparent;
-    border-top: 32px solid #ff0000;
+    border-left: clamp(8px, 3vw, 12px) solid transparent;
+    border-right: clamp(8px, 3vw, 12px) solid transparent;
+    border-top: clamp(20px, 8vw, 32px) solid #ff3366;
     border-top-color: #ff3366;
     filter: drop-shadow(0 0 10px #ff3366);
 }
 
 .center-dot {
     position: absolute;
-    top: 49%;
-    left: 49%;
-    transform: translate(-35%, -40%);
-    width: 4%;
-    height: 4%;
+    top: 50%;
+    left: 50%;  
+    transform: translate(-50%, -50%);
+    width: clamp(12px, 5vw, 20px);      
+    height: clamp(12px, 5vw, 20px);
     border-radius: 50%;
     border: 3px solid #fff;
     z-index: 10;
@@ -146,6 +151,7 @@ body {
     /* 初始状态 */
     opacity: 0;
     transform: translateY(20px) scale(0.9);
+    filter: none;
     transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     
     /* 渐变文字 */
@@ -162,11 +168,8 @@ body {
 .result.show {
     opacity: 1;
     transform: translateY(0) scale(1);
+    filter: drop-shadow(0 0 10px rgba(0, 212, 170, 0.5));
     animation: resultGlow 2s ease-in-out infinite alternate;
-}
-
-.result:not(.show) {
-    animation: none;
 }
 
 @keyframes resultGlow {
