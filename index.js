@@ -118,9 +118,9 @@ class Wheel{
     // 扇形跟随指针旋转，保证指针始终在扇形中心
     this.wheelSection.style.cssText = `
         transform: rotate(${this.state.rotateAngle}deg);
-        background: linear-gradient(135deg, #0098d4 0%, #00a884 100%);
+        background: linear-gradient(135deg, #00f5d4 0%, #00bbf9 50%, #9b5de5 100%);
         clip-path: ${clipPath};
-        box-shadow: inset 0 0 30px rgba(0,0,0,0.3);
+        box-shadow: inset 0 0 40px rgba(0,0,0,0.4), 0 0 30px rgba(0, 245, 212, 0.3);
     `;
   } 
 
