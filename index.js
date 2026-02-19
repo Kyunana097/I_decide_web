@@ -116,7 +116,12 @@ class Wheel{
     const clipPath = `polygon(${points.join(', ')})`;
 
     // 扇形跟随指针旋转，保证指针始终在扇形中心
-    this.wheelSection.style.cssText = `transform: rotate(${this.state.rotateAngle}deg); background: #0077ff; clip-path: ${clipPath};`;
+    this.wheelSection.style.cssText = `
+        transform: rotate(${this.state.rotateAngle}deg);
+        background: linear-gradient(135deg, #0098d4 0%, #00a884 100%);
+        clip-path: ${clipPath};
+        box-shadow: inset 0 0 30px rgba(0,0,0,0.3);
+    `;
   } 
 
   // 打开配置窗口
