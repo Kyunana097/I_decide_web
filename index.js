@@ -25,6 +25,7 @@ class Wheel{
     this.spinBtn = document.getElementById('spinBtn');
     this.resultEl = document.getElementById('result');
     this.githubLink = document.getElementById('githubLink');
+    this.confettiMask = document.getElementById('confettiMask');
 
     // 获取配置弹窗的 DOM 元素
     this.configMask = document.getElementById('configMask');
@@ -82,7 +83,8 @@ class Wheel{
       this.spinBtn.textContent = '决策';
       // 这里直接固定结果为 sector1Text
       this.resultEl.textContent = this.state.sector1Text;
-      // 彩纸动画、配置弹窗等你可以参考小程序 index.js 继续往下迁
+      // 决策完成后触发一次彩纸动画
+      this.launchConfetti();
     }, this.state.duration);
   }
 
@@ -171,6 +173,82 @@ class Wheel{
       return chars.slice(0, 3).join('') + '…';
     }
     return t;
+  }
+
+  launchConfetti() {
+    if (!this.confettiMask) return;
+
+    const colors = [
+      '#ff6b6b', '#feca57', '#48dbfb', '#1dd1a1', 
+      '#ff9ff3', '#54a0ff', '#5f27cd', '#00d2d3',
+      '#ff9f43', '#ee5a24', '#0abde3', '#10ac84',
+      '#ff7675', '#fdcb6e', '#74b9ff', '#55efc4'
+    ];
+
+    const shapes = ['square', 'circle', 'rect', 'strip'];
+    const animations = ['confetti-fall', 'confetti-sway-1', 'confetti-sway-2', 'confetti-spiral'];
+    const count = 100;
+
+    this.confettiMask.innerHTML = '';
+
+    for (let i = 0; i < count; i++) {
+      const left = 5 + Math.random() * 90;
+      const delay = Math.random() * 600;
+      const duration = 2 + Math.random() * 2;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const shape = shapes[Math.floor(Math.random() * shapes.length)];
+
+      let width, height, borderRadius;
+      switch (shape) {
+        case 'circle':
+          width = 8 + Math.random() * 6;
+          height = width;
+          borderRadius = '50%';
+          break;
+        case 'rect':
+          width = 12 + Math.random() * 8;
+          height = 4 + Math.random() * 4;
+          borderRadius = '2px';
+          break;
+        case 'strip':
+          width = 4 + Math.random() * 4;
+          height = 16 + Math.random() * 12;
+          borderRadius = '2px';
+          break;
+        default:
+          width = 6 + Math.random() * 6;
+          height = width;
+          borderRadius = '1px';
+      }
+
+      const animClass = animations[Math.floor(Math.random() * animations.length)];
+      const startRotate = Math.floor(Math.random() * 360);
+      const endRotate = startRotate + 360 + Math.floor(Math.random() * 720);
+      const driftX = (Math.random() - 0.5) * 30;
+
+      const div = document.createElement('div');
+      div.className = `confetti-item ${animClass}`;
+      div.style.left = `${left}%`;
+      div.style.top = '0';
+      div.style.marginTop = '-30px';
+      div.style.width = `${width}px`;
+      div.style.height = `${height}px`;
+      div.style.background = color;
+      div.style.borderRadius = borderRadius;
+      div.style.animationDelay = `${delay}ms`;
+      div.style.animationDuration = `${duration}s`;
+      div.style.setProperty('--start-rotate', `${startRotate}deg`);
+      div.style.setProperty('--end-rotate', `${endRotate}deg`);
+      div.style.setProperty('--drift-x', `${driftX}vw`);
+
+      this.confettiMask.appendChild(div);
+    }
+
+    setTimeout(() => {
+      if (this.confettiMask) {
+        this.confettiMask.innerHTML = '';
+      }
+    }, 4500);
   }
 
   // 应用配置

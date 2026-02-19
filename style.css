@@ -250,3 +250,102 @@ body {
 .config-actions button + button {
   margin-left: 24px;
 }
+
+/* 彩纸动画遮罩层 */
+.confetti-mask {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 200;
+    overflow: hidden;
+}
+
+/* 单个彩纸条 */
+.confetti-item {
+    position: absolute;
+    will-change: transform, opacity;
+    animation-fill-mode: forwards;
+}
+
+/* 基础下落动画 */
+.confetti-fall {
+    animation-name: confetti-drop;
+    animation-timing-function: linear;
+}
+
+@keyframes confetti-drop {
+    0% {
+        transform: translateY(-10vh) rotate(var(--start-rotate, 0deg));
+        opacity: 0;
+    }
+    8% {
+        opacity: 1;
+    }
+    92% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) translateX(var(--drift-x, 0)) rotate(var(--end-rotate, 360deg));
+        opacity: 0;
+    }
+}
+
+.confetti-sway-1 {
+    animation-name: sway-1;
+    animation-timing-function: ease-in;
+}
+
+.confetti-sway-2 {
+    animation-name: sway-2;
+    animation-timing-function: ease-in;
+}
+
+@keyframes sway-1 {
+    0% {
+        transform: translateY(-10vh) translateX(0) rotate(0deg);
+        opacity: 0;
+    }
+    5% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) translateX(15vw) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+@keyframes sway-2 {
+    0% {
+        transform: translateY(-10vh) translateX(0) rotate(0deg);
+        opacity: 0;
+    }
+    5% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) translateX(-15vw) rotate(-720deg);
+        opacity: 0;
+    }
+}
+
+.confetti-spiral {
+    animation-name: spiral-fall;
+    animation-timing-function: linear;
+}
+
+@keyframes spiral-fall {
+    0% {
+        transform: translateY(-10vh) translateX(0) rotate(0deg) scale(1);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) translateX(20vw) rotate(1080deg) scale(0.6);
+        opacity: 0;
+    }
+}
